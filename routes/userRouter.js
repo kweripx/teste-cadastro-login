@@ -6,7 +6,7 @@ const userController = require('../src/controllers/userController')
 userRouter.get('/', userController.index)
 //User register route
 userRouter.post('/register', userController.create)
-//Usere login route
+//User login route
 userRouter.post('/login', userController.create)
 //GET a single user route
 userRouter.get('/:id', userController.show)

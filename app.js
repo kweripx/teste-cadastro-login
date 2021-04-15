@@ -14,13 +14,15 @@ app.set('view engine', 'ejs')
 app.use('/', routes)
 app.use('/users', usersRouter)
 
+app.get('/login', (req, res) => {
+  res.render('./login')
+})
+//Get register route
 app.get('/register', (req, res) => {
   res.render('./register')
 })
 //Register Router
-app.post('/register', usersRouter, (req, res) => {
-  res.render('./register')
-})
+app.post('/register', usersRouter, (req, res) => {})
 
 //Login Router
 app.post('/login', usersRouter)
