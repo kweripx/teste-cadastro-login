@@ -2,41 +2,25 @@ const Sequelize = require('sequelize')
 const { Model } = require('sequelize')
 const bcrypt = require('bcryptjs')
 
-class User extends Model {
+class Users extends Model {
   static init(sequelize) {
     super.init(
       {
-        email: {
-          type: Sequelize.STRING,
-          defaultValue: '',
-          //Validate email using sequelize validator
-          validate: {
-            isEmail: {
-              message: 'invalid email',
-            },
-          },
-        },
+        email: Sequelize.STRING,
+        password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
-        //Password validation using validator to
-        password: {
-          type: Sequelize.VIRTUAL,
-          defaultValue: '',
-          validate: {
-            len: {
-              args: [10, 20],
-              message: 'password must have 10 or 20 characters',
-            },
-          },
-        },
       },
       {
         sequelize,
       }
     )
-    //Using Bcrypt to transform password to a password hash
+    // Using Bcrypt to transform password to a password hash before saving user on bd
     this.addHook('beforeSave', async (user) => {
-      user.password_hash = await bcrypt.hash(user.password, 10)
+      if (user.password) {
+        user.password_hash = await bcrypt.hash(user.password, 10)
+      }
     })
+    return this
   }
 }
-module.exports = User
+module.exports = Users
