@@ -1,3 +1,3 @@
 # Teste
 
-Teste realizado para o desenvolvimento de um sistema de cadastros de usuários e login
+API desenvolvida usando o padrão MVC junto do postgres, para a criação de um sistema de cadastro de usuários e login
