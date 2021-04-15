@@ -1,3 +1,7 @@
+/*
+import some tools to make sytem run properly 
+*/
+
 const express = require('express')
 const app = express()
 const ejs = require('ejs')
@@ -7,7 +11,8 @@ const routes = require('./routes/routes')
 const usersRouter = require('./routes/userRouter')
 const PORT = 5001
 
-app.use(bodyParser.urlencoded({ extended: true }))
+//Body Parser was necessary cuz the infos wasn't going to database returning a lot of errors
+app.use(bodyParser.urlencoded({ extended: false }))
 routes.use(bodyParser.json())
 app.set('views', './src/views')
 app.set('view engine', 'ejs')
@@ -21,11 +26,16 @@ app.get('/login', (req, res) => {
 app.get('/register', (req, res) => {
   res.render('./register')
 })
-//Register Router
-app.post('/register', usersRouter, (req, res) => {})
+//POST Register Router
+app.post('/register', usersRouter, (req, res) => {
+  const email = req.body.email
+  const password = req.body.password
+})
 
 //Login Router
-app.post('/login', usersRouter)
+app.post('/login', usersRouter, (req, res) => {
+  res.render('login.ejs')
+})
 // app.get('/users', usersRouter)
 app.listen(PORT, () => {
   console.log(`Server listening to ${PORT}`)

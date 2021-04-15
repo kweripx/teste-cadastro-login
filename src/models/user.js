@@ -1,13 +1,32 @@
-const Sequelize = require('sequelize')
-const { Model } = require('sequelize')
+const { Sequelize, Model } = require('sequelize')
 const bcrypt = require('bcryptjs')
 
 class Users extends Model {
   static init(sequelize) {
     super.init(
       {
-        email: Sequelize.STRING,
-        password: Sequelize.VIRTUAL,
+        email: {
+          type: Sequelize.STRING,
+          allowNull: false,
+          unique: {
+            msg: 'Email already exists',
+          },
+          //Validating email trough sequelize validator
+          validate: {
+            notEmpty: true,
+            isEmail: true,
+          },
+        },
+        password: {
+          type: Sequelize.VIRTUAL,
+          allowNull: false,
+          //Validating password trough sequelize validator
+          validate: {
+            len: {
+              args: [8, 20],
+            },
+          },
+        },
         password_hash: Sequelize.STRING,
       },
       {
@@ -21,6 +40,11 @@ class Users extends Model {
       }
     })
     return this
+  }
+
+  //Bcrypt method to check password through password hash
+  checkPassword(password) {
+    return bcrypt.compare(password, this.password_hash)
   }
 }
 module.exports = Users
