@@ -8,9 +8,6 @@ class Users extends Model {
         email: {
           type: Sequelize.STRING,
           allowNull: false,
-          unique: {
-            msg: 'Email already exists',
-          },
           //Validating email trough sequelize validator
           validate: {
             notEmpty: true,
