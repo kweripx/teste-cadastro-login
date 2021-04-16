@@ -1,7 +1,7 @@
 const User = require('../models/user')
 
 class loginController {
-  //POST
+  //POST login method
   async create(req, res) {
     const { email, password } = req.body
     const user = await User.findOne({ where: { email } })
